@@ -28,4 +28,36 @@
     return choiceWord
   }
 
+  function playGame(playerSelection, computerSelection){
+    playerSelection = playerSelection.toLowerCase();
+    let result = "";
+    if(playerSelection == computerSelection){
+      result = "Tie!";
+      return result;
+    }
+    else if(playerSelection == "rock" && computerSelection == "paper"){
+      result = "Computer wins! Paper covers rock!"
+      return result
+    }
+    else if(playerSelection == "rock" && computerSelection == "scissors"){
+      result = "You win! Rock smashes scissors!"
+      return result
+    }
+    else if(playerSelection == "paper" && computerSelection == "rock"){
+      result = "You win! Paper covers rock!"
+      return result
+    }
+    else if(playerSelection == "paper" && computerSelection == "scissors"){
+      result = "Computer wins! Scissors cut paper!"
+      return result
+    }
+    else if(playerSelection == "scissors" && computerSelection == "rock"){
+      result = "Computer wins! Rock smashes scissors!"
+      return result
+    }
+    else if(playerSelection == "scissors" && computerSelection == "paper"){
+      result = "You win! Scissors cut paper!"
+      return result
+    }
+  }
  </script>
