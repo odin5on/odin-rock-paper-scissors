@@ -4,10 +4,26 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="stylesheet" href="./style.css">
+  <title>RPS</title>
 </head>
 <body>
-  
+  <div class="header">
+    <h1>Welcome to rock paper scissors</h1>
+  </div>
+  <div class="messages">
+    <p>> Ready to play rock paper scissors first to 3 wins?</p>
+    <p>> Click Rock, Paper, of Scissors to get started.</p>
+  </div>
+  <div class="score">
+    <p>> Computer: <strong class="computerScore">0</strong></p>
+    <p>> You: <strong class="youScore">0</strong></p>
+  </div>
+  <div class="buttons">
+    <button id="rock">Rock</button>
+    <button id="paper">Paper</button>
+    <button id="scissors">Scissors</button>
+  </div>
 </body>
 </html>
  <script>
@@ -32,58 +48,118 @@
   }
 
   function playRound(playerSelection, computerSelection){
+    const messages = document.querySelector('.messages');
     playerSelection = playerSelection.toLowerCase();
     let result = "";
     if(playerSelection == computerSelection){
-      result = "Tie!";
-      return result;
+      result = "> Tie!";
+      const message = document.createElement('p');
+      message.textContent = result;
+      messages.appendChild(message);
     }
     else if(playerSelection == "rock" && computerSelection == "paper"){
-      result = "Computer wins! Paper covers rock!"
+      result = "> Computer wins! Paper covers rock!"
       computerWins++;
-      return result
+      writeComputerScore(computerWins);
+      const message = document.createElement('p');
+      message.textContent = result;
+      messages.appendChild(message);
+      checkGameOver();
     }
     else if(playerSelection == "rock" && computerSelection == "scissors"){
-      result = "You win! Rock smashes scissors!"
+      result = "> You win! Rock smashes scissors!"
       userWins++;
-      return result
+      writeYouScore(userWins);
+      const message = document.createElement('p');
+      message.textContent = result;
+      messages.appendChild(message);
+      checkGameOver();
     }
     else if(playerSelection == "paper" && computerSelection == "rock"){
-      result = "You win! Paper covers rock!"
+      result = "> You win! Paper covers rock!"
       userWins++;
-      return result
+      writeYouScore(userWins);
+      const message = document.createElement('p');
+      message.textContent = result;
+      messages.appendChild(message);
+      checkGameOver();
     }
     else if(playerSelection == "paper" && computerSelection == "scissors"){
-      result = "Computer wins! Scissors cut paper!"
+      result = "> Computer wins! Scissors cut paper!"
       computerWins++;
-      return result
+      writeComputerScore(computerWins);
+      const message = document.createElement('p');
+      message.textContent = result;
+      messages.appendChild(message);
+      checkGameOver();
     }
     else if(playerSelection == "scissors" && computerSelection == "rock"){
-      result = "Computer wins! Rock smashes scissors!"
+      result = "> Computer wins! Rock smashes scissors!"
       computerWins++;
-      return result
+      writeComputerScore(computerWins);
+      const message = document.createElement('p');
+      message.textContent = result;
+      messages.appendChild(message);
+      checkGameOver();
     }
     else if(playerSelection == "scissors" && computerSelection == "paper"){
-      result = "You win! Scissors cut paper!"
+      result = "> You win! Scissors cut paper!"
       userWins++;
-      return result
+      writeYouScore(userWins);
+      const message = document.createElement('p');
+      message.textContent = result;
+      messages.appendChild(message);
+      checkGameOver();
     }
   }
-  function game(){
-    console.log("Ready to play rock paper scissors first to 3 wins?")
-    while(true){
-      userInput = prompt("Enter rock, paper, or scissors");
-      console.log(playRound(userInput, getComputerChoice()));
-      if(userWins == 3){
-        console.log("You were first to 3 wins! You win!");
-        break;
-      }
-      if(computerWins == 3){
-        console.log("Computer was first to 3 wins, you lose :(");
-        break;
-      }
-    }
-    userWins = 0;
-    computerWins = 0;
+
+  function writeComputerScore(score){
+    const computerScore = document.querySelector('.computerScore')
+    computerScore.textContent = score;
   }
+
+  function writeYouScore(score){
+    const youScore = document.querySelector('.youScore')
+    youScore.textContent = score;
+  }
+
+  function buttonClicked(e){
+    console.log(e.target.id);
+    playRound(e.target.id, getComputerChoice());
+  }
+
+  function checkGameOver(){
+    if(userWins == 5){
+      const scores = document.querySelector('.score');
+
+      const message = document.createElement('p');
+      const refreshMessage = document.createElement('p');
+      message.textContent = "> You reached 5 wins first! You win!";
+      refreshMessage.textContent = "> Refresh to play again";
+
+      scores.appendChild(message);
+      scores.appendChild(refreshMessage);
+
+      document.querySelectorAll('button').forEach(button => button.disabled = true);
+    }
+    else if(computerWins == 5){
+      const scores = document.querySelector('.score');
+
+      const message = document.createElement('p');
+      const refreshMessage = document.createElement('p');
+      message.textContent = "> The computer reached 5 wins first! You lose :(";
+      refreshMessage.textContent = "> Refresh to play again";
+
+      scores.appendChild(message);
+      scores.appendChild(refreshMessage);
+
+      document.querySelectorAll('button').forEach(button => button.disabled = true);
+    }
+  }
+
+  const buttons = Array.from(document.querySelectorAll('button'));
+  buttons.forEach(button => button.addEventListener('click', buttonClicked));
+
+  const scores = Array.from(document.querySelectorAll('strong'));
+  scores.forEach(score => score.addEventListener('change', (e) => {console.log(e)}))
  </script>
